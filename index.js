@@ -56,6 +56,33 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/book/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await bookCollection.findOne(query);
+            res.send(result);
+        })
+
+        app.put('/book/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updateBook = req.body;
+
+            const book = {
+                $set: {
+                    image: updateBook.image,
+                    name: updateBook.name,
+                    rating: updateBook.rating,
+                    author_name: updateBook.author_name,
+                    category: updateBook.category
+                }
+            }
+
+            const result = await bookCollection.updateOne(filter, book, options);
+            res.send(result);
+        })
+
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     }
