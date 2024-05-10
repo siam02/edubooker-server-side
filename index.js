@@ -33,6 +33,22 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/book', async (req, res) => {
+            const page = parseInt(req.query.page);
+            const size = parseInt(req.query.size);
+
+            const result = await bookCollection.find()
+                .skip(page * size)
+                .limit(size)
+                .toArray();
+            res.send(result);
+        })
+
+        app.get('/bookCount', async (req, res) => {
+            const count = await bookCollection.estimatedDocumentCount();
+            res.send({ count });
+        })
+
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     }
