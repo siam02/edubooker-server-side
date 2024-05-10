@@ -26,6 +26,7 @@ async function run() {
         // await client.connect();
 
         const bookCollection = client.db('library').collection('books');
+        const categoryCollection = client.db('library').collection('categories');
 
         app.post('/book', async (req, res) => {
             const newBook = req.body;
@@ -94,6 +95,18 @@ async function run() {
 
             const result = await bookCollection.updateOne(filter, book, options);
             res.send(result);
+        })
+
+        app.post('/category', async (req, res) => {
+            const newCategory = req.body;
+            const result = await categoryCollection.insertOne(newCategory);
+            res.send(result);
+        })
+
+        app.get('/category', async (req, res) => {
+            const cursor = categoryCollection.find();
+            const categories = await cursor.toArray();
+            res.send(categories);
         })
 
         // await client.db("admin").command({ ping: 1 });
