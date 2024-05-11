@@ -139,7 +139,7 @@ async function run() {
         })
 
         app.get('/borrowed-book-count', async (req, res) => {
-            const id = req.query.name;
+            const id = req.query.id;
             const email = req.query.email;
             const query = { book_id: id, user_email:email }
             const count = await borrowedBooksCollection.countDocuments(query);
