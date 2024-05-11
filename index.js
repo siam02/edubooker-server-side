@@ -27,6 +27,7 @@ async function run() {
 
         const bookCollection = client.db('library').collection('books');
         const categoryCollection = client.db('library').collection('categories');
+        const borrowedBooksCollection = client.db('library').collection('borrowed_books');
 
         app.post('/book', async (req, res) => {
             const newBook = req.body;
@@ -128,6 +129,12 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await categoryCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        app.post('/borrowed-book', async (req, res) => {
+            const borrowedBook = req.body;
+            const result = await borrowedBooksCollection.insertOne(borrowedBook);
             res.send(result);
         })
 
