@@ -54,12 +54,12 @@ async function run() {
 
             const result = await bookCollection.find()
                 .skip(page * size)
-                .limit(size).sort({rating: sortOrder})
+                .limit(size).sort({ rating: sortOrder })
                 .toArray();
             res.send(result);
         })
 
-        app.get('/book-by-category/:name', async(req, res) => {
+        app.get('/book-by-category/:name', async (req, res) => {
             const name = req.params.name;
             const query = { category: name }
             const cursor = bookCollection.find(query);
@@ -157,10 +157,21 @@ async function run() {
         app.get('/borrowed-book-count', async (req, res) => {
             const id = req.query.id;
             const email = req.query.email;
-            const query = { book_id: id, user_email:email }
+            const query = { book_id: id, user_email: email }
             const count = await borrowedBooksCollection.countDocuments(query);
-            res.send({count});
+            res.send({ count });
         })
+
+        app.get('/borrowed-book/:email', async (req, res) => {
+
+            const email = req.params.email;
+            const query = { user_email: email }
+            const cursor = borrowedBooksCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+
+        })
+
 
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
