@@ -60,7 +60,7 @@ async function run() {
 
         app.get('/book-by-category/:name', async(req, res) => {
             const name = req.params.name;
-            const query = { name: name }
+            const query = { category: name }
             const cursor = bookCollection.find(query);
             const result = await cursor.toArray();
             res.send(result);
