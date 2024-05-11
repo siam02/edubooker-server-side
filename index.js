@@ -138,7 +138,7 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/borrowed-book', async (req, res) => {
+        app.get('/borrowed-book-count', async (req, res) => {
             const id = req.query.name;
             const email = req.query.email;
             const query = { id: id, user_email:email }
