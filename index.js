@@ -138,6 +138,14 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/borrowed-book', async (req, res) => {
+            const id = req.query.name;
+            const email = req.query.email;
+            const query = { id: id, user_email:email }
+            const count = await borrowedBooksCollection.countDocuments(query);
+            res.send({count});
+        })
+
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
     }
