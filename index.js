@@ -117,10 +117,17 @@ async function run() {
             res.send(categories);
         })
 
-        app.get('/category/:id', async (req, res) => {
+        app.get('/category/:name', async (req, res) => {
+            const name = req.params.name;
+            const query = { name: name }
+            const result = await categoryCollection.findOne(query);
+            res.send(result);
+        })
+
+        app.delete('/category/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
-            const result = await categoryCollection.findOne(query);
+            const result = await categoryCollection.deleteOne(query);
             res.send(result);
         })
 
