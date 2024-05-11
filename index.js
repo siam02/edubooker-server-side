@@ -106,6 +106,22 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/update-book-quantity/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updateBook = req.body;
+
+            const book = {
+                $set: {
+                    quantity: updateBook.quantity,
+                }
+            }
+
+            const result = await bookCollection.updateOne(filter, book, options);
+            res.send(result);
+        })
+
         app.post('/category', async (req, res) => {
             const newCategory = req.body;
             const result = await categoryCollection.insertOne(newCategory);
