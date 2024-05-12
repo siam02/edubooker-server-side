@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://edu-booker-client.web.app'],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://edu-booker-client.web.app', 'https://edu-booker-client.firebaseapp.com'],
     credentials: true
 }));
 app.use(express.json());
