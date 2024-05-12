@@ -172,6 +172,13 @@ async function run() {
 
         })
 
+        app.delete('/borrowed-book/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { book_id: id }
+            const result = await borrowedBooksCollection.deleteOne(query);
+            res.send(result);
+        })
+
 
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
