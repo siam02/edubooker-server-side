@@ -82,6 +82,27 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/book/search', async (req, res) => {
+            const searhQuery = req.query.q;
+            let query;
+
+            if (searhQuery) {
+                 query = {
+                    $or: [
+                      { name: { $regex: searhQuery, $options: 'i' } },
+                      { author_name: { $regex: searhQuery, $options: 'i' } },
+                      { category: { $regex: searhQuery, $options: 'i' } },
+                    ],
+                  };
+            }else{
+                query={};
+            }
+            
+            const result = await bookCollection.find(query).toArray();
+
+            res.json(result);
+        })
+
         app.get('/book-sort-by-rating', async (req, res) => {
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
