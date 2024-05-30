@@ -84,6 +84,8 @@ async function run() {
 
         app.get('/book/search', async (req, res) => {
             const searhQuery = req.query.q;
+            const page = parseInt(req.query.page);
+            const size = parseInt(req.query.size);
             let query;
 
             if (searhQuery) {
@@ -98,7 +100,10 @@ async function run() {
                 query={};
             }
             
-            const result = await bookCollection.find(query).toArray();
+            const result = await bookCollection.find(query)
+            .skip(page * size)
+            .limit(size)
+            .toArray();
 
             res.json(result);
         })
